@@ -44,4 +44,23 @@ public class BasicItemController {
         itemRepository.update(itemId, updateParam);
         return "redirect:/basic/items";
     }
+
+    @GetMapping("/add")
+    public String postItemForm() {
+        return "basic/addForm";
+    }
+
+    @PostMapping("/add")
+    public String postItem(
+            @RequestParam("itemName") String itemName,
+            @RequestParam("price") int price,
+            @RequestParam("quantity") int quantity
+    ) {
+        Item item = new Item();
+        item.setItemName(itemName);
+        item.setPrice(price);
+        item.setQuantity(quantity);
+        itemRepository.save(item);
+        return "redirect:/basic/items";
+    }
 }
