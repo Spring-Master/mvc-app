@@ -2,6 +2,7 @@ package hello.itemservice.domain.item;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -26,6 +27,7 @@ public class ItemRepository {
                 .getResultList();
     }
 
+    @Transactional
     public void update(Long itemId, ItemUpdateDto updateParam) {
         Item item = findById(itemId);
         item.setItemName(updateParam.getItemName());
