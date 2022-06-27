@@ -9,10 +9,12 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ItemRepository {
 
     private final EntityManager em;
 
+    @Transactional
     public Long save(Item item) {
         em.persist(item);
         return item.getId();
