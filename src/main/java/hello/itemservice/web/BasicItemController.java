@@ -51,16 +51,8 @@ public class BasicItemController {
     }
 
     @PostMapping("/add")
-    public String postItem(
-            @RequestParam("itemName") String itemName,
-            @RequestParam("price") int price,
-            @RequestParam("quantity") int quantity
-    ) {
-        Item item = new Item();
-        item.setItemName(itemName);
-        item.setPrice(price);
-        item.setQuantity(quantity);
+    public String postItem(@ModelAttribute("item") Item item) {
         itemRepository.save(item);
-        return "redirect:/basic/items";
+        return "redirect:/basic/items/" + item.getId();
     }
 }
