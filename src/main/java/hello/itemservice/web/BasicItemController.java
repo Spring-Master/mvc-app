@@ -42,7 +42,7 @@ public class BasicItemController {
     public String updateItem(@PathVariable("itemId") Long itemId, @ModelAttribute ItemUpdateDto updateParam) {
         System.out.println("updateParam.getItemName() = " + updateParam.getItemName());
         itemRepository.update(itemId, updateParam);
-        return "redirect:/basic/items";
+        return "redirect:/basic/items/{itemId}";
     }
 
     @GetMapping("/add")

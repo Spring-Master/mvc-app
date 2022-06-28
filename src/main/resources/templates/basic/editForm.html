@@ -19,7 +19,7 @@
 
     <h4 class="mb-3">상품 정보</h4>
 
-    <form th:action="@{|/basic/items/${item.id}/edit|}" method="post">
+    <form th:action method="post">
         <div class="mb-2">
             <label for="itemName">상품 명</label>
             <input type="text" id="itemName" name="itemName" class="form-control" th:value="${item.itemName}" placeholder="상품 명을 입력하세요.">
@@ -39,8 +39,10 @@
                 </button>
             </div>
             <div class="col">
-                <button class="w-100 btn btn-danger btn-lg" th:onclick="|location.href='@{/basic/items}'|"
-                        onclick="location.href=`items.html`">취소
+                <button class="w-100 btn btn-danger btn-lg"
+                        th:onclick="|location.href='@{/basic/items/{itemId}(itemId=${item.id})}'|"
+                        onclick="location.href=`items.html`"
+                        type="button">취소
                 </button>
             </div>
         </div>
