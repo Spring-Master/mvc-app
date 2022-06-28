@@ -13,6 +13,10 @@
 <body>
 
 <div class="container">
+    <div th:if="${param.status}" th:text="저장완료" class="alert alert-success" role="alert">
+        저장완료
+    </div>
+
     <div class="py-5 text-center">
         <h2>상품 상세</h2>
     </div>
