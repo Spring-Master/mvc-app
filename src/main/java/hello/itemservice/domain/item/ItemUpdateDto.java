@@ -13,5 +13,6 @@ public class ItemUpdateDto {
     private final Boolean open;
     private final List<String> regions;
     private final ItemType itemType;
+    private final DeliveryCode deliveryCode;
 
 }

@@ -1,9 +1,6 @@
 package hello.itemservice.web;
 
-import hello.itemservice.domain.item.Item;
-import hello.itemservice.domain.item.ItemRepository;
-import hello.itemservice.domain.item.ItemType;
-import hello.itemservice.domain.item.ItemUpdateDto;
+import hello.itemservice.domain.item.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -38,7 +35,13 @@ public class BasicItemController {
         return ItemType.values();
     }
 
+    @ModelAttribute("deliveryCodes")
+    public DeliveryCode[] deliveryCodes() {
+        return DeliveryCode.values();
+    }
+
     @GetMapping
+
     public String items(Model model) {
         List<Item> items = itemRepository.findAll();
         model.addAttribute("items", items);
