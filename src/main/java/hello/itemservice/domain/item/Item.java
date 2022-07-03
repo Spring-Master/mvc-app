@@ -1,9 +1,12 @@
 package hello.itemservice.domain.item;
 
+import hello.itemservice.domain.converter.ListToStringConverter;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -16,6 +19,13 @@ public class Item {
     private String itemName;
     private int price;
     private int quantity;
+    private Boolean open;
+    @Convert(converter = ListToStringConverter.class)
+    private List<String> regions = new ArrayList<>();
+    @Enumerated(EnumType.STRING)
+    private ItemType itemType;
+    @Enumerated(EnumType.STRING)
+    private DeliveryCode deliveryCode;
 
     @Override
     public boolean equals(Object o) {
