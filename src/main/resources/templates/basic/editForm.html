@@ -36,6 +36,11 @@
             <label th:for="${#ids.prev('regions')}"
                    th:text="${region.value}" class="form-check-label"></label>
         </div>
+        <div>상품 종류</div>
+        <div class="mb-4 form-check form-check-inline" th:each="itemType : ${itemTypes}">
+            <input type="radio" th:field="*{itemType}" th:value="${itemType.name()}" class="form-check-input">
+            <label th:for="${#ids.prev('itemType')}" th:text="${itemType.description}" class="form-check-label"></label>
+        </div>
 
         <div class="row mb-2">
             <div class="col">

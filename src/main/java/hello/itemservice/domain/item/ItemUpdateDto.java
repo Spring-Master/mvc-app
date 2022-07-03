@@ -12,5 +12,6 @@ public class ItemUpdateDto {
     private final Integer quantity;
     private final Boolean open;
     private final List<String> regions;
+    private final ItemType itemType;
 
 }

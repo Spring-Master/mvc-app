@@ -33,10 +33,15 @@
             </div>
         </div>
         <div>등록 지역</div>
-        <div class="mb-4 form-check form-check-inline" th:each="region : ${regions}">
+        <div class="mb-2 form-check form-check-inline" th:each="region : ${regions}">
             <input type="checkbox" th:field="*{regions}" th:value="${region.key}" class="form-check-input">
             <label th:for="${#ids.prev('regions')}"
                    th:text="${region.value}" class="form-check-label"></label>
+        </div>
+        <div>상품 종류</div>
+        <div class="mb-4 form-check form-check-inline" th:each="itemType : ${itemTypes}">
+            <input type="radio" th:field="*{itemType}" th:value="${itemType.name()}" class="form-check-input">
+            <label th:for="${#ids.prev('itemType')}" th:text="${itemType.description}" class="form-check-label"></label>
         </div>
 
         <div class="row mb-2">
