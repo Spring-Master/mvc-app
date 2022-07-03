@@ -33,14 +33,14 @@ public class InitDto {
     static class InitService {
 
         private final EntityManager em;
-        private List<String> regions = Arrays.asList("서울", "부산", "대구", "고양", "인천");
+        private List<String> regions = Arrays.asList("SEOUL", "BUSAN", "DAEGU");
 
         public void dbInit() {
             Faker faker = new Faker();
             Random random = new Random();
-            Collections.shuffle(regions);
 
             for (int i = 0; i < 10; i++) {
+                Collections.shuffle(regions);
                 Item item = new Item();
                 item.setItemName(faker.book().title());
                 item.setPrice(faker.number().numberBetween(12, 15) * 1000);
