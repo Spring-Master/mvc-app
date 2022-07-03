@@ -8,5 +8,6 @@ public class ItemUpdateDto {
     private final String itemName;
     private final Integer price;
     private final Integer quantity;
+    private final Boolean open;
 
 }

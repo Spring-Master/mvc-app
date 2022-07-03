@@ -35,5 +35,6 @@ public class ItemRepository {
         item.setItemName(updateParam.getItemName());
         item.setPrice(updateParam.getPrice());
         item.setQuantity(updateParam.getQuantity());
+        item.setOpen(updateParam.getOpen());
     }
 }

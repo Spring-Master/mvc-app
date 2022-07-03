@@ -21,9 +21,14 @@
             <label for="price">상품 가격</label>
             <input type="text" id="price" th:field="*{price}" class="form-control" placeholder="가격을 입력하세요.">
         </div>
-        <div class="mb-4">
+        <div class="mb-2">
             <label for="quantity">수량</label>
             <input type="text" id="quantity" th:field="*{quantity}" class="form-control" placeholder="수량을 입력하세요.">
+        </div>
+        <div>판매 여부</div>
+        <div class="mb-4">
+            <input type="checkbox" id="open" th:field="*{open}" class="form-check-input">
+            <label for="open" class="form-check-label">판매 오픈</label>
         </div>
 
         <div class="row mb-2">
