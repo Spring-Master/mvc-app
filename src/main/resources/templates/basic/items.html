@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <link th:href="@{/css/bootstrap.min.css}"
-          href="../../static/css/bootstrap.min.css" rel="stylesheet">
-    <title>Title</title>
+<head th:replace="~{layout/header :: header (~{::title})}">
+    <title>아이템 목록</title>
 </head>
-<body>
 
+<body>
 <div class="container" style="max-width: 600px">
     <div class="py-5 text-center">
         <h2>상품 목록</h2>
@@ -43,7 +40,8 @@
             </tbody>
         </table>
     </div>
-</div>
 
+    <footer th:replace="~{layout/footer :: footer}"></footer>
+</div>
 </body>
 </html>

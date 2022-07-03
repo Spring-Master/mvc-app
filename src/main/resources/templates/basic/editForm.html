@@ -1,17 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link th:href="@{/css/bootstrap.min.css}"
-          href="../../static/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .container {
-            max-width: 560px;
-        }
-    </style>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/header :: header (~{::title})}">
+    <title>아이템 수정</title>
 </head>
-<body>
 
+<body>
 <div class="container">
     <div class="py-5 text-center">
         <h2>상품 수정</h2>
@@ -48,7 +41,7 @@
         </div>
     </form>
 
+    <footer th:replace="~{layout/footer :: footer}"></footer>
 </div>
-
 </body>
 </html>

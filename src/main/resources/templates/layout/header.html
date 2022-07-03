@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="header (title)">
+    <meta charset="UTF-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../../static/css/bootstrap.min.css" rel="stylesheet">
+
+    <title th:replace="${title}">제목</title>
+    <style>
+        .container {
+            max-width: 560px;
+        }
+    </style>
+</head>
+</html>
