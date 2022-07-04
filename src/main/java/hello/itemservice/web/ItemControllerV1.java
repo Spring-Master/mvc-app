@@ -13,9 +13,9 @@ import java.util.*;
 
 @Slf4j
 @Controller
-@RequestMapping("/basic/items")
+@RequestMapping("/v1/items")
 @RequiredArgsConstructor
-public class BasicItemController {
+public class ItemControllerV1 {
 
     private final ItemRepository itemRepository;
 
@@ -43,21 +43,21 @@ public class BasicItemController {
     public String items(Model model) {
         List<Item> items = itemRepository.findAll();
         model.addAttribute("items", items);
-        return "basic/items";
+        return "v1/items";
     }
 
     @GetMapping("/{itemId}")
     public String item(@PathVariable("itemId") Long itemId, Model model) {
         Item item = itemRepository.findById(itemId);
         model.addAttribute("item", item);
-        return "basic/item";
+        return "v1/item";
     }
 
     @GetMapping("/{itemId}/edit")
     public String updateItemForm(@PathVariable("itemId") Long itemId, Model model) {
         Item item = itemRepository.findById(itemId);
         model.addAttribute("item", item);
-        return "basic/editForm";
+        return "v1/editForm";
     }
 
     @PostMapping("/{itemId}/edit")
@@ -65,13 +65,13 @@ public class BasicItemController {
         System.out.println("updateParam.getItemName() = " + updateParam.getItemName());
         itemRepository.update(itemId, updateParam);
 
-        return "redirect:/basic/items/{itemId}";
+        return "redirect:/v1/items/{itemId}";
     }
 
     @GetMapping("/add")
     public String postItemForm(Model model) {
         model.addAttribute("item", new Item());
-        return "basic/addForm";
+        return "v1/addForm";
     }
 
     @PostMapping("/add")
@@ -105,12 +105,12 @@ public class BasicItemController {
 
         if (!errors.isEmpty()) {
             model.addAttribute("errors", errors);
-            return "basic/addForm";
+            return "v1/addForm";
         }
 
         itemRepository.save(item);
         redirectAttributes.addAttribute("itemId", item.getId());
         redirectAttributes.addAttribute("status", true);
-        return "redirect:/basic/items/{itemId}";
+        return "redirect:/v1/items/{itemId}";
     }
 }
