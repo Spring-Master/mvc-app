@@ -17,8 +17,8 @@ public class Item {
     @Column(name = "item_id")
     private Long id;
     private String itemName;
-    private int price;
-    private int quantity;
+    private Integer price;
+    private Integer quantity;
     private Boolean open;
     @Convert(converter = ListToStringConverter.class)
     private List<String> regions = new ArrayList<>();
