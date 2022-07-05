@@ -84,6 +84,8 @@ public class ItemControllerV3 {
             Errors errors,
             RedirectAttributes redirectAttributes
     ) {
+        itemForm.validate(errors);
+
         if (errors.hasErrors()) {
             return "v3/addForm";
         }

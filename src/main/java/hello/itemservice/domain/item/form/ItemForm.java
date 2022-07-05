@@ -4,6 +4,8 @@ import hello.itemservice.domain.item.DeliveryCode;
 import hello.itemservice.domain.item.ItemType;
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;
+import org.hibernate.validator.constraints.ScriptAssert;
+import org.springframework.validation.Errors;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -24,4 +26,13 @@ public class ItemForm {
     private List<String> regions = new ArrayList<>();
     private ItemType itemType;
     private DeliveryCode deliveryCode;
+
+    public void validate(Errors errors) {
+        if (price != null && quantity != null) {
+            int total = price * quantity;
+            if (total <= 10_000) {
+                errors.reject("totalPriceMain", new Object[]{10_000, total}, null);
+            }
+        }
+    }
 }
