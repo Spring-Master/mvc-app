@@ -148,7 +148,7 @@ public class ItemControllerV2 {
         return "redirect:/v2/items/{itemId}";
     }
 
-    @PostMapping("/add")
+//    @PostMapping("/add")
     public String postItemV3(
             @ModelAttribute Item item,
             BindingResult bindingResult,
@@ -168,6 +168,39 @@ public class ItemControllerV2 {
             int result = item.getPrice() * item.getQuantity();
             if (result < 10_000) {
                 bindingResult.addError(new ObjectError("item", new String[]{"totalPriceMain"}, new Object[]{1000, result}, null));
+            }
+        }
+
+        if (bindingResult.hasErrors()) {
+            return "v2/addForm";
+        }
+
+        itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", item.getId());
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/v2/items/{itemId}";
+    }
+
+    @PostMapping("/add")
+    public String postItemV4(
+            @ModelAttribute Item item,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes
+    ) {
+        if (!StringUtils.hasText(item.getItemName())) {
+            bindingResult.rejectValue("itemName", "required");
+        }
+        if (item.getPrice() == null || item.getPrice() < 1000 || item.getPrice() > 1000_000) {
+            bindingResult.rejectValue("price", "range", new Object[]{1000, 1000_000}, null);
+        }
+        if (item.getQuantity() == null || item.getQuantity() <= 0 || item.getQuantity() > 9999) {
+            bindingResult.rejectValue("quantity", "max", new Object[]{9999}, null);
+        }
+
+        if (item.getPrice() != null && item.getQuantity() != null) {
+            int result = item.getPrice() * item.getQuantity();
+            if (result < 10_000) {
+                bindingResult.reject("totalPriceMain", new Object[]{10000, result}, null);
             }
         }
 
