@@ -1,12 +1,14 @@
 package hello.itemservice.web;
 
 import hello.itemservice.domain.item.*;
+import hello.itemservice.web.validation.ItemValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ItemControllerV2 {
 
+    private final ItemValidator itemValidator;
     private final ItemRepository itemRepository;
 
     @ModelAttribute("regions")
@@ -181,7 +184,7 @@ public class ItemControllerV2 {
         return "redirect:/v2/items/{itemId}";
     }
 
-    @PostMapping("/add")
+//    @PostMapping("/add")
     public String postItemV4(
             @ModelAttribute Item item,
             BindingResult bindingResult,
@@ -205,6 +208,23 @@ public class ItemControllerV2 {
         }
 
         if (bindingResult.hasErrors()) {
+            return "v2/addForm";
+        }
+
+        itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", item.getId());
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/v2/items/{itemId}";
+    }
+
+    @PostMapping("/add")
+    public String postItemV5(
+            @ModelAttribute Item item,
+            Errors errors,
+            RedirectAttributes redirectAttributes
+    ) {
+        itemValidator.validate(item, errors);
+        if (errors.hasErrors()) {
             return "v2/addForm";
         }
 
