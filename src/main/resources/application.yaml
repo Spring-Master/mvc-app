@@ -15,7 +15,7 @@ spring:
         default_batch_fetch_size: 100
 
   messages:
-    basename: messages
+    basename: messages, errors
     encoding: UTF-8
 
 logging:
