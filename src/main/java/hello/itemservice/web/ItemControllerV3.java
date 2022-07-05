@@ -60,15 +60,32 @@ public class ItemControllerV3 {
     @GetMapping("/{itemId}/edit")
     public String updateItemForm(@PathVariable("itemId") Long itemId, Model model) {
         Item item = itemRepository.findById(itemId);
-        model.addAttribute("item", item);
+
+        ItemForm itemForm = new ItemForm();
+        itemForm.setItemName(item.getItemName());
+        itemForm.setPrice(item.getPrice());
+        itemForm.setQuantity(item.getQuantity());
+        itemForm.setOpen(item.getOpen());
+        itemForm.setRegions(item.getRegions());
+        itemForm.setItemType(item.getItemType());
+        itemForm.setDeliveryCode(item.getDeliveryCode());
+
+        model.addAttribute("itemForm", itemForm);
         return "v3/editForm";
     }
 
     @PostMapping("/{itemId}/edit")
-    public String updateItem(@PathVariable("itemId") Long itemId, @ModelAttribute ItemUpdateDto updateParam) {
-        System.out.println("updateParam.getItemName() = " + updateParam.getItemName());
-        itemRepository.update(itemId, updateParam);
+    public String updateItem(
+            @PathVariable("itemId") Long itemId,
+            @Valid @ModelAttribute ItemForm itemForm,
+            Errors errors
+    ) {
+        itemForm.validate(errors);
+        if (errors.hasErrors()) {
+            return "v3/editForm";
+        }
 
+        itemRepository.update(itemId, itemForm);
         return "redirect:/v3/items/{itemId}";
     }
 

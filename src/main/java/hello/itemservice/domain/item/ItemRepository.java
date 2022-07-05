@@ -1,5 +1,6 @@
 package hello.itemservice.domain.item;
 
+import hello.itemservice.domain.item.form.ItemForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,5 +40,17 @@ public class ItemRepository {
         item.setRegions(updateParam.getRegions());
         item.setItemType(updateParam.getItemType());
         item.setDeliveryCode(updateParam.getDeliveryCode());
+    }
+
+    @Transactional
+    public void update(Long itemId, ItemForm itemForm) {
+        Item item = findById(itemId);
+        item.setItemName(itemForm.getItemName());
+        item.setPrice(itemForm.getPrice());
+        item.setQuantity(itemForm.getQuantity());
+        item.setOpen(itemForm.getOpen());
+        item.setRegions(itemForm.getRegions());
+        item.setItemType(itemForm.getItemType());
+        item.setDeliveryCode(itemForm.getDeliveryCode());
     }
 }
