@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/header :: header (~{::title})}">
+    <title th:text="#{title.addItem}">아이템 등록</title>
+</head>
+
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2 th:text="#{page.addItem}">상품 등록</h2>
+    </div>
+
+    <h4 th:text="#{page.item.info}" class="mb-3">상품 정보</h4>
+
+    <form th:action th:object="${item}" method="post">
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 에러</p>
+        </div>
+
+        <div class="mb-2">
+            <label th:text="#{label.item.itemName}" for="itemName">상품 명</label>
+            <input type="text" id="itemName" th:field="*{itemName}"
+                   class="form-control" th:errorclass="is-invalid"
+                   th:placeholder="#{placeholder.name}" placeholder="상품 명을 입력하세요.">
+            <div th:errors="*{itemName}" class="field-error">
+                상품 이름 에러
+            </div>
+        </div>
+        <div class="mb-2">
+            <label th:text="#{label.item.price}" for="price">상품 가격</label>
+            <input type="text" id="price" th:field="*{price}"
+                   class="form-control" th:errorclass="is-invalid"
+                   th:placeholder="#{placeholder.price}" placeholder="가격을 입력하세요.">
+            <div th:errors="*{price}" class="field-error">
+                상품 수량 에러
+            </div>
+        </div>
+        <div class="mb-2">
+            <label th:text="#{label.item.quantity}" for="quantity">수량</label>
+            <input type="text" id="quantity" th:field="*{quantity}"
+                   class="form-control" th:errorclass="is-invalid"
+                   th:placeholder="#{placeholder.quantity}" placeholder="수량을 입력하세요.">
+            <div th:errors="*{quantity}" class="field-error">
+                상품수량 에러
+            </div>
+        </div>
+        <div th:text="#{label.item.open}">판매 여부</div>
+        <div class="mb-2">
+            <div class="form-check">
+                <input type="checkbox" id="open" th:field="*{open}" class="form-check-input">
+                <label for="open" class="form-check-label">판매 오픈</label>
+            </div>
+        </div>
+        <div th:text="#{label.item.regions}">등록 지역</div>
+        <div class="mb-2 form-check form-check-inline" th:each="region : ${regions}">
+            <input type="checkbox" th:field="*{regions}" th:value="${region.key}" class="form-check-input">
+            <label th:for="${#ids.prev('regions')}"
+                   th:text="${region.value}" class="form-check-label"></label>
+        </div>
+        <div th:text="#{label.item.itemType}">상품 종류</div>
+        <div class="mb-2 form-check form-check-inline" th:each="itemType : ${itemTypes}">
+            <input type="radio" th:field="*{itemType}" th:value="${itemType.name()}" class="form-check-input">
+            <label th:for="${#ids.prev('itemType')}" th:text="${itemType.description}" class="form-check-label"></label>
+        </div>
+        <div th:text="#{label.item.deliveryCode}">배송 방식</div>
+        <select th:field="*{deliveryCode}" class="mb-4 form-select">
+            <option th:each="deliveryCode : ${deliveryCodes}" th:value="${deliveryCode.name()}"
+                    th:text="${deliveryCode.description}"></option>
+        </select>
+
+        <div class="row mb-2">
+            <div class="col">
+                <button th:text="#{button.save}" class="w-100 btn btn-primary btn-lg" type="submit">상품 등록
+                </button>
+            </div>
+            <div class="col">
+                <button th:text="#{button.cancel}"
+                        class="w-100 btn btn-danger btn-lg"
+                        th:onclick="|location.href='@{/v3/items}'|"
+                        onclick="location.href=`items.html`"
+                        type="button">취소
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <footer th:replace="~{layout/footer :: footer}"></footer>
+</div>
+</body>
+</html>
