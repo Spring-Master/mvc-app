@@ -11,10 +11,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,11 @@ public class ItemControllerV2 {
 
     private final ItemValidator itemValidator;
     private final ItemRepository itemRepository;
+
+    @InitBinder
+    public void init(WebDataBinder dataBinder) {
+        dataBinder.addValidators(itemValidator);
+    }
 
     @ModelAttribute("regions")
     public Map<String, String> regions() {
@@ -217,13 +223,29 @@ public class ItemControllerV2 {
         return "redirect:/v2/items/{itemId}";
     }
 
-    @PostMapping("/add")
+//    @PostMapping("/add")
     public String postItemV5(
             @ModelAttribute Item item,
             Errors errors,
             RedirectAttributes redirectAttributes
     ) {
         itemValidator.validate(item, errors);
+        if (errors.hasErrors()) {
+            return "v2/addForm";
+        }
+
+        itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", item.getId());
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/v2/items/{itemId}";
+    }
+
+    @PostMapping("/add")
+    public String postItemV6(
+            @Validated @ModelAttribute Item item,
+            Errors errors,
+            RedirectAttributes redirectAttributes
+    ) {
         if (errors.hasErrors()) {
             return "v2/addForm";
         }
