@@ -1,17 +1,16 @@
 package hello.itemservice.web;
 
 import hello.itemservice.domain.item.*;
-import hello.itemservice.web.validation.ItemValidator;
+import hello.itemservice.domain.item.form.ItemForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,13 +21,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ItemControllerV3 {
 
-    private final ItemValidator itemValidator;
     private final ItemRepository itemRepository;
-
-    @InitBinder
-    public void init(WebDataBinder dataBinder) {
-        dataBinder.addValidators(itemValidator);
-    }
 
     @ModelAttribute("regions")
     public Map<String, String> regions() {
@@ -81,19 +74,28 @@ public class ItemControllerV3 {
 
     @GetMapping("/add")
     public String postItemForm(Model model) {
-        model.addAttribute("item", new Item());
+        model.addAttribute("itemForm", new ItemForm());
         return "v3/addForm";
     }
 
     @PostMapping("/add")
     public String postItem(
-            @Validated @ModelAttribute Item item,
+            @Valid @ModelAttribute ItemForm itemForm,
             Errors errors,
             RedirectAttributes redirectAttributes
     ) {
         if (errors.hasErrors()) {
             return "v3/addForm";
         }
+
+        Item item = new Item();
+        item.setItemName(itemForm.getItemName());
+        item.setPrice(itemForm.getPrice());
+        item.setQuantity(itemForm.getQuantity());
+        item.setOpen(itemForm.getOpen());
+        item.setRegions(item.getRegions());
+        item.setItemType(itemForm.getItemType());
+        item.setDeliveryCode(itemForm.getDeliveryCode());
 
         itemRepository.save(item);
         redirectAttributes.addAttribute("itemId", item.getId());
