@@ -57,7 +57,7 @@ class ItemRepositoryTest {
         Item item = createItem("The Book", 10000, 12);
         itemRepository.save(item);
 
-        ItemUpdateDto itemParam = new ItemUpdateDto("The New Book", 12000, 15);
+        ItemUpdateDto itemParam = new ItemUpdateDto("The New Book", 12000, 15, null, null, null, null);
         itemRepository.update(item.getId(), itemParam);
         em.flush();
 
