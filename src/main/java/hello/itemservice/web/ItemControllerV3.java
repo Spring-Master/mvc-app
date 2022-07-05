@@ -2,11 +2,14 @@ package hello.itemservice.web;
 
 import hello.itemservice.domain.item.*;
 import hello.itemservice.domain.item.form.ItemForm;
+import hello.itemservice.domain.item.form.SaveCheck;
+import hello.itemservice.domain.item.form.UpdateCheck;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -74,10 +77,25 @@ public class ItemControllerV3 {
         return "v3/editForm";
     }
 
-    @PostMapping("/{itemId}/edit")
+//    @PostMapping("/{itemId}/edit")
     public String updateItem(
             @PathVariable("itemId") Long itemId,
             @Valid @ModelAttribute ItemForm itemForm,
+            Errors errors
+    ) {
+        itemForm.validate(errors);
+        if (errors.hasErrors()) {
+            return "v3/editForm";
+        }
+
+        itemRepository.update(itemId, itemForm);
+        return "redirect:/v3/items/{itemId}";
+    }
+
+    @PostMapping("/{itemId}/edit")
+    public String updateItem2(
+            @PathVariable("itemId") Long itemId,
+            @Validated(UpdateCheck.class) @ModelAttribute ItemForm itemForm,
             Errors errors
     ) {
         itemForm.validate(errors);
@@ -95,9 +113,36 @@ public class ItemControllerV3 {
         return "v3/addForm";
     }
 
-    @PostMapping("/add")
+//    @PostMapping("/add")
     public String postItem(
             @Valid @ModelAttribute ItemForm itemForm,
+            Errors errors,
+            RedirectAttributes redirectAttributes
+    ) {
+        itemForm.validate(errors);
+
+        if (errors.hasErrors()) {
+            return "v3/addForm";
+        }
+
+        Item item = new Item();
+        item.setItemName(itemForm.getItemName());
+        item.setPrice(itemForm.getPrice());
+        item.setQuantity(itemForm.getQuantity());
+        item.setOpen(itemForm.getOpen());
+        item.setRegions(item.getRegions());
+        item.setItemType(itemForm.getItemType());
+        item.setDeliveryCode(itemForm.getDeliveryCode());
+
+        itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", item.getId());
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/v3/items/{itemId}";
+    }
+
+    @PostMapping("/add")
+    public String postItem2(
+            @Validated(SaveCheck.class) @ModelAttribute ItemForm itemForm,
             Errors errors,
             RedirectAttributes redirectAttributes
     ) {

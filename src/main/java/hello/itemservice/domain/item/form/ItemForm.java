@@ -15,12 +15,13 @@ import java.util.List;
 @Data
 public class ItemForm {
 
-    @NotBlank
+    @NotBlank(groups = {SaveCheck.class, UpdateCheck.class})
     private String itemName;
-    @NotNull
-    @Range(min = 1000, max = 1000_000)
+    @NotNull(groups = {SaveCheck.class, UpdateCheck.class})
+    @Range(min = 1000, max = 1000_000, groups = {SaveCheck.class})
     private Integer price;
-    @Range(min = 0, max = 9999)
+    @NotNull(groups = {SaveCheck.class, UpdateCheck.class})
+    @Range(min = 0, max = 9999, groups = {SaveCheck.class})
     private Integer quantity;
     private Boolean open;
     private List<String> regions = new ArrayList<>();
