@@ -1,0 +1,27 @@
+package hello.itemservice.domain.item.form;
+
+import hello.itemservice.domain.item.DeliveryCode;
+import hello.itemservice.domain.item.ItemType;
+import lombok.Data;
+import org.hibernate.validator.constraints.Range;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
+
+@Data
+public class ItemForm {
+
+    @NotBlank
+    private String itemName;
+    @NotNull
+    @Range(min = 1000, max = 1000_000)
+    private Integer price;
+    @Range(min = 0, max = 9999)
+    private Integer quantity;
+    private Boolean open;
+    private List<String> regions = new ArrayList<>();
+    private ItemType itemType;
+    private DeliveryCode deliveryCode;
+}
